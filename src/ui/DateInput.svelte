@@ -8,10 +8,11 @@
 <style>
 .input-item{
     padding: 1rem;
-    font-family: 'Poppins', sans-serif;
+    width: 250px;
     font-size: 1rem;
     border: none;;
     border-right: 1px solid #ccc;
     overflow: hidden;
+    background-color: #fff;
 }
 </style>

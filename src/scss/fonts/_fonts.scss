@@ -1,0 +1,38 @@
+@import "../variables/variables";
+
+@font-face {
+    font-family: $bold-italic-pb ;
+    src: url("/assets/fonts/publica-sans/PublicaSansRound-BdIt.otf");
+}
+@font-face {
+    font-family: $med-italic-pb ;
+    src: url("/assets/fonts/publica-sans/PublicaSansRound-MdIt.otf");
+}
+@font-face {
+    font-family: $reg-italic-pb ;
+    src: url("/assets/fonts/publica-sans/PublicaSansRound-RgIt.otf");
+}
+@font-face {
+    font-family: $thin-italic-pb ;
+    src: url("/assets/fonts/publica-sans/PublicaSansRound-ThIt.otf");
+}
+@font-face {
+    font-family: $thin-pb ;
+    src: url("/assets/fonts/publica-sans/PublicaSansRound-Thin.otf");
+}
+@font-face {
+    font-family: $light-pb ;
+    src: url("/assets/fonts/publica-sans/PublicaSansRound-Lt.otf");
+}
+@font-face {
+    font-family: $regular-pb ;
+    src: url("/assets/fonts/publica-sans/PublicaSansRound-Rg.otf");
+}
+@font-face {
+    font-family: $medium-pb ;
+    src: url("/assets/fonts/publica-sans/PublicaSansRound-Md.otf");
+}
+@font-face {
+    font-family: $bold-pb ;
+    src: url("/assets/fonts/publica-sans/PublicaSansRound-Bd.otf");
+}

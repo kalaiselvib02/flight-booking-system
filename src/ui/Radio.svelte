@@ -4,7 +4,7 @@ export let id;
 export let type;
 export let value;
 export let label;
-export let groupName
+export let groupName;
 </script>
 
 
@@ -15,12 +15,16 @@ export let groupName
     </div>
     {/if}
 
-<style>
+<style type="text/scss">
+@import "../scss/fonts/_fonts.scss";
+@import "../scss/mixins/_mixins.scss";
+@import "../scss/variables/_variables.scss";
+@import "../scss/style.scss";
  .radio-group{
   width: 150px;
   height: 45px;
   position: relative;
-  font-family: 'Poppins', sans-serif;
+  font-family: $regular-pb;
   border-radius: 0.375rem;
   }
 .radio-group label,

@@ -39,8 +39,14 @@
 .text-bold{
     font-family: $medium-pb;
 }
+.text-gray{
+    color: #b3afaf;
+}
 .text-sm{
     font-size: $text-sm;
+}
+.text-xsm{
+    font-size:$text-xsm;
 }
 .text-md{
     font-size: $text-md;
@@ -51,4 +57,54 @@
 .text-grey{
     color: $text-grey;
 }
+.text-white{
+    color : $text-white
+}
+.w-100{
+    width: 100%;
+}
+.p-relative{
+    position: relative;
+}
+.text-center{
+    text-align: center;
+}
+.m-auto{
+    margin: 0 auto;
+}
 
+
+:global(.s-select){
+    background-color: #fff;
+    width: 100%;
+    padding: 1rem;
+    border-right: 1px solid #ccc;
+}
+:global( .s-menu){
+    top: 56px ;
+    left: 0px;
+    transform-origin: left top;
+    z-index: 8;
+    background-color: #fff !important;
+    width: 100%;
+}
+:global(.s-input label) {
+    color: $text-primary;
+    font-family: $regular-pb;
+}
+:global(.s-text-field__wrapper>[slot=append]){
+    display: none;
+}
+:global(.s-text-field__input input[type="text"]){
+color: $text-primary;
+padding-left: 1.6rem;
+font-family: $regular-pb;
+}
+:global(.s-list-item__title){
+    color: $text-primary;
+    font-family: $regular-pb;
+}
+:global(.s-text-field__input){
+    color: $text-primary;
+    padding-left: 1rem;
+}

@@ -1,9 +1,13 @@
 <script>
 export let caption;
 export let changeBtnStyle;
+export let btnClass;
 </script>
 
-<button class="{changeBtnStyle === 'true' ? 'btn btn-md btn-blue' : 'btn btn-sm btn-blue btn-rounded-md'}" on:click>{caption}</button>
+<div>
+    <button class={btnClass} on:click>{caption}</button>
+</div>
+
 
 
 <style type="text/scss">
@@ -11,6 +15,7 @@ export let changeBtnStyle;
 @import "../scss/mixins/_mixins.scss";
 @import "../scss/variables/_variables.scss";
 @import "../scss/style.scss";
+
     .btn{
         border: none;
         font-family: $regular-pb;

@@ -10,7 +10,7 @@ export let groupName;
 
     {#if type === "radio"}
     <div class="radio-group">
-        <input type="radio" name={name} id={id} on:input value={value} bind:group={groupName} >
+        <input type="radio" name={name} id={id} on:change on:input value={value} bind:group={groupName} >
         <label for={name}>{label}</label>
     </div>
     {/if}

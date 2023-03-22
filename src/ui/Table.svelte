@@ -1,6 +1,9 @@
 <script>
 export let thItems;
-import Button from "./Button.svelte"
+export let items;
+import Button from "./Button.svelte";
+
+console.log("from table" , items)
 </script>
 
 <div class="table-wrapper">
@@ -32,117 +35,7 @@ import Button from "./Button.svelte"
                     <p class="text-lg text-bold">5654</p>
                 </td>
                 <td>
-                    <Button caption="Book" btnClass="btn-blue btn-rounded-md" changeBtnStyle={true}></Button>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <p class="text-grey text-md mb-0_2">Spicejet</p>
-                    <p class="city-name mb-0_2">MAA , Chennai</p>
-                    <p class="text-sm text-bold mb-0_2">10:30</p>
-                </td>
-
-                <td>
-                    2h 40m 
-                </td>
-
-                <td>
-                    <p class="city-name mb-0_2">DEL , New Delhi</p>
-                    <p class="text-sm text-bold">13:10</p>
-                </td>
-                <td>
-                    <p class="text-lg text-bold">5654</p>
-                </td>
-                <td>
-                    <Button caption="Book" btnClass="btn-blue btn-rounded-md" changeBtnStyle={true}></Button>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <p class="text-grey text-md mb-0_2">Spicejet</p>
-                    <p class="city-name mb-0_2">MAA , Chennai</p>
-                    <p class="text-sm text-bold mb-0_2">10:30</p>
-                </td>
-
-                <td>
-                    2h 40m 
-                </td>
-
-                <td>
-                    <p class="city-name mb-0_2">DEL , New Delhi</p>
-                    <p class="text-sm text-bold">13:10</p>
-                </td>
-                <td>
-                    <p class="text-lg text-bold">5654</p>
-                </td>
-                <td>
-                    <Button caption="Book" btnClass="btn-blue btn-rounded-md" changeBtnStyle={true}></Button>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <p class="text-grey text-md mb-0_2">Spicejet</p>
-                    <p class="city-name mb-0_2">MAA , Chennai</p>
-                    <p class="text-sm text-bold mb-0_2">10:30</p>
-                </td>
-
-                <td>
-                    2h 40m 
-                </td>
-
-                <td>
-                    <p class="city-name mb-0_2">DEL , New Delhi</p>
-                    <p class="text-sm text-bold">13:10</p>
-                </td>
-                <td>
-                    <p class="text-lg text-bold">5654</p>
-                </td>
-                <td>
-                    <Button caption="Book" btnClass="btn-blue btn-rounded-md" changeBtnStyle={true}></Button>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <p class="text-grey text-md mb-0_2">Spicejet</p>
-                    <p class="city-name mb-0_2">MAA , Chennai</p>
-                    <p class="text-sm text-bold mb-0_2">10:30</p>
-                </td>
-
-                <td>
-                    2h 40m 
-                </td>
-
-                <td>
-                    <p class="city-name mb-0_2">DEL , New Delhi</p>
-                    <p class="text-sm text-bold">13:10</p>
-                </td>
-                <td>
-                    <p class="text-lg text-bold">5654</p>
-                </td>
-                <td>
-                    <Button caption="Book" btnClass="btn-blue btn-rounded-md" changeBtnStyle={true}></Button>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <p class="text-grey text-md mb-0_2">Spicejet</p>
-                    <p class="city-name mb-0_2">MAA , Chennai</p>
-                    <p class="text-sm text-bold mb-0_2">10:30</p>
-                </td>
-
-                <td>
-                    2h 40m 
-                </td>
-
-                <td>
-                    <p class="city-name mb-0_2">DEL , New Delhi</p>
-                    <p class="text-sm text-bold">13:10</p>
-                </td>
-                <td>
-                    <p class="text-lg text-bold">5654</p>
-                </td>
-                <td>
-                    <Button caption="Book" btnClass="btn-blue btn-rounded-md" changeBtnStyle={true}></Button>
+                    <Button caption="Book" btnClass="btn btn-md btn-blue btn-rounded-md" changeBtnStyle={true}></Button>
                 </td>
             </tr>
         </tbody>

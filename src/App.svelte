@@ -1,7 +1,19 @@
 <script>
-import Home from "./Home.svelte";
+
+import Router from "svelte-spa-router"
+import Home from "./routes/Home.svelte";
+import SearchResults from "./routes/SearchResults.svelte";
+
+
+let routes = {
+    "/" : Home,
+    "/search-results" : SearchResults
+
+}
+
 </script>
 
 
 
-<Home/>
+
+<Router {routes}></Router>

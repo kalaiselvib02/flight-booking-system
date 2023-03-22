@@ -1,8 +1,10 @@
 <script>
 
 export let value
-export let checked = false;
+export let group = undefined;
 export let customCheckBox = false;
+
+
 </script>
 
 {#if customCheckBox}
@@ -17,7 +19,7 @@ export let customCheckBox = false;
 {:else}
 <div class="checkbox-wrapper">
     <label>
-        <input type="checkbox" value={value} bind:checked={checked}/>
+        <input type="checkbox"  value={value} bind:group/>
         {value}
     </label>
 </div>

@@ -1,8 +1,15 @@
 export const APP_CONSTANTS = {
+    TRIP_DATA:{
+        ONE_WAY:"one-way",
+        ROUND_TRIP:"round-trip"
+    },
     SELECT_CITY: {
         FROM:"From",
         TO:"To",
         URL:"https://run.mocky.io/v3/8b1d2b79-0b1f-4f9f-bd56-17c5aad99ac5"
+    },
+    FLIGHTS:{
+        URL:"https://run.mocky.io/v3/6229c6e5-4d44-4d1b-8060-78a5160e13f6"
     },
     TABLE:{
         TABLE_HEAD_COLUMNS:[
@@ -17,25 +24,38 @@ export const APP_CONSTANTS = {
         RETURN_DEPARTURE_OPTIONS:[
             {
                 name: "Before 11am",
-                value:"Before 11am"
+                value:{
+                    range1:11,
+                    range2:""
+                },
+               
             },
             {
                 name: "11am - 5pm",
-                value:"11am - 5pm"
+                value:{
+                    range1:11,
+                    range2:17
+                },
             },
             {
                 name: "5pm - 9pm",
-                value:"5pm - 9pm"
+                value:{
+                    range1:17,
+                    range2:21
+                },
             },
             {
                 name: "After 9pm",
-                value:"After 9pm"
+                value:{
+                    range1:21,
+                    range2:""
+                },
             },
         ],
         AIRLINES_OPTIONS:[
            {
-            name: "Indigo Airlines",
-            value:"Indigo Airlines"
+            name: "Indigo",
+            value:"Indigo"
            },
            {
             name: "Spicejet",
@@ -46,8 +66,8 @@ export const APP_CONSTANTS = {
             value:"Air India"
            },
            {
-            name: "AirAsia India",
-            value:"AirAsia India"
+            name: "Air Asia India",
+            value:"Air Asia"
            },
 
         ]
@@ -55,5 +75,8 @@ export const APP_CONSTANTS = {
     OFFER_DATA:{
         TITLE:"One Time Offer !!",
         BODY:"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+    },
+    ERROR_MESSAGES:{
+        SAME_CITY_ERROR:"From and To Cities cannot be same"
     }
 }

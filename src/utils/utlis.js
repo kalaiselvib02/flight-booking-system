@@ -6,11 +6,11 @@ async function fetchFlights(url){
        return data.map((flight) => {
                if(flight && flight.from.city_name === $ticketSelection.selectedFromCity && flight.to.city_name === $ticketSelection.selectedToCity){
                    if(airlinesOptionsValues && airlinesOptionsValues.length) {
-                       console.log("if")
+                     
                     filterBasedOnSelection()
                    }
                    else {
-                       console.log("else")
+                     
                        resultsData =  [...resultsData , flight];
                    }
                    return resultsData;

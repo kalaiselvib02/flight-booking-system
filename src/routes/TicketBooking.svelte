@@ -1,14 +1,14 @@
 <script>
 
     import {Select } from 'svelte-materialify';
-    import { ticketSelection , flightData} from '../store/store';
+    import { ticketSelection , flightData, filteredValues} from '../store/store';
     import DateInput from "../ui/DateInput.svelte";
     import Radio from "../ui/Radio.svelte";
     import Button from "../ui/Button.svelte";
     import {APP_CONSTANTS} from "../constants/constants";
     import { onMount , onDestroy} from "svelte";
     import Tooltip from '../ui/Tooltip.svelte';
-
+  
     export let changeFormLayout;
     export let btnText;
     export let updateSearch;
@@ -20,12 +20,11 @@
     const flightsUrl = APP_CONSTANTS.FLIGHTS.URL
     let selectedFromCity = $ticketSelection.fromCity;
     let selectedToCity = $ticketSelection.toCity;
-    export let selectedTripOption = APP_CONSTANTS.TRIP_DATA.ONE_WAY;
- 
 
-    let sameCityError = false;
+   let selectedTripOption = $ticketSelection && $ticketSelection.isRoundTrip ? APP_CONSTANTS.TRIP_DATA.ROUND_TRIP : APP_CONSTANTS.TRIP_DATA.ONE_WAY
+   $:selectedTripOption === APP_CONSTANTS.TRIP_DATA.ROUND_TRIP ?   $ticketSelection.isRoundTrip = true :  $ticketSelection.isRoundTrip = false 
 
-
+   let sameCityError = false;
 
     //  Show Same City Error
     $:$ticketSelection.selectedFromCity && 
@@ -33,27 +32,37 @@
     : sameCityError = false;
    
 
+
     
     let items = [];
     let city = {
         name : "",
         value : ""
     }; 
-    let fCity = $ticketSelection.selectedFromCity;
+
 
  
     //  Storing ticket in local storage //
     $:window.localStorage.setItem("ticket" , JSON.stringify($ticketSelection)) || {};
-    window.localStorage.setItem("fromCity" , fCity) || "";
+ 
+   
+    let showLoaderText;
+   
    
 
-
+    // $:$ticketSelection , fetchCities(flightsUrl)
 
     async function fetchFlights (flightsUrl)   {
-    await fetch(flightsUrl)
-    .then(response => response.json())
-    .then(data => {
-        return data.map((flight) => {
+    showLoader();
+    try{
+    const res = await fetch(flightsUrl);
+   
+    const jsonResult = await res.json();
+    if(jsonResult.length) {
+        showLoaderText = true
+       flightData.set([])
+    }
+    return jsonResult.map((flight) => {
                     if(flight && 
                     flight.from.city_name === $ticketSelection.selectedFromCity && 
                     flight.to.city_name === $ticketSelection.selectedToCity 
@@ -61,24 +70,34 @@
                     // departureDateaVal === $ticketSelection.selectedDepartureDate && 
                     // returnDateVal === $ticketSelection.selectedReturnDate
                     ){
+                       
                         flightData.update((currentData) => {
                         // Extracting Departure and Arrival Time from data // 
                         flight.departureTimeVal = getTime(flight.departure);
-                        flight.arrivalTimeVal = getTime(flight.arrival)
-
+                        flight.arrivalTimeVal = getTime(flight.arrival);
+                      
+                        if(flight.airlines.name === "Go Air") {
+                           flight.airlines.logo = "https://m.economictimes.com/thumb/msid-80049437,width-1200,height-900,resizemode-4,imgsize-38409/goair-agencies.jpg"
+                        }
                         return [...currentData, flight];
                         });
-                        console.log($flightData)
+                       
                         return flightData;                   
                     }
+                  
                    
             })
-            
-    }).catch(error => {
+      }catch(error){
         console.log(error);
         return [];
-    });
+      }finally{
+        hideLoader();
+      }
+     
     }
+
+    function showLoader(){showLoaderText = true ; }
+    function hideLoader(){ showLoaderText = false ;}
 
     async function fetchCities(url){
         await fetch(url)
@@ -114,17 +133,10 @@
        //  fetchFlights(flightsUrl)
     });
 
-    $:selectedTripOption === APP_CONSTANTS.TRIP_DATA.ROUND_TRIP ?   $ticketSelection.isRoundTrip = true :  $ticketSelection.isRoundTrip = false 
-    
-    // const ticket = () => {
-    //     ticketSelection.set({
-    //         selectedFromCity:selectedFromCity,
-    //         selectedToCity:selectedToCity,
-    //         selectedDepartureDate:"",
-    //         isRoundTrip:selectedTripOption ,
-    //         selectedReturnDate:""
-    //     })
-    // }
+ 
+ 
+
+
  
     const swapCities = (fromCity , toCity) => { 
             $ticketSelection.selectedFromCity = fromCity;
@@ -191,13 +203,16 @@
                 </div>
                         {#if updateSearch} 
                        <div>
-                        <Button btnClass="btn btn-lg btn-blue" caption={btnText} changeBtnStyle=true  on:click={  () =>  fetchFlights(flightsUrl)}/>
+                        <Button btnClass="btn btn-lg btn-blue" caption={btnText} changeBtnStyle=true  on:click={ async  () =>  fetchFlights(flightsUrl)}/>
                        </div>
                         {:else}
                         <div class="d-flex flex-end">
-                            <Button btnClass="btn btn-md btn-blue mt-4" 
-                            caption={btnText} 
-                            changeBtnStyle=true on:click={() => window.location.href="#/search-results"}/>
+                           
+                            <a href="#/search-results">
+                                <Button btnClass="btn btn-md btn-blue mt-4" 
+                                caption={btnText} 
+                                changeBtnStyle=true/>
+                            </a>
                         </div>                      
                         {/if}
             </div>

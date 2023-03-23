@@ -3,6 +3,13 @@ export let modalText
 export let showModal
 import Icon from 'svelte-awesome'; 
 import close from 'svelte-awesome/icons/close';
+import { createEventDispatcher } from "svelte";
+
+const dispatch = createEventDispatcher();
+
+function closeModal() {
+	dispatch('close-modal', false);
+}
 </script>
 
 
@@ -10,7 +17,7 @@ import close from 'svelte-awesome/icons/close';
 <div id="myModal" class="modal" >
     <!-- Modal content -->
     <div class="modal-content">
-      <button class="close" on:click={() => showModal = !showModal}>&times;</button>
+      <button class="close" on:click={closeModal}>&times;</button>
       <p>{modalText}</p>
      <div class="text-center">
       <i class="fa-solid fa-circle-check fa-2x text-center"></i>

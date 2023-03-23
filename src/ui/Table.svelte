@@ -3,7 +3,7 @@ export let thItems;
 export let items;
 import Button from "./Button.svelte";
 
-console.log("from table" , items)
+
 </script>
 
 <div class="table-wrapper">

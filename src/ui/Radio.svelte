@@ -5,14 +5,19 @@ export let type;
 export let value;
 export let label;
 export let groupName;
+export let isDarkMode;
+
+
 </script>
 
 
     {#if type === "radio"}
+   <div class:dark-mode={isDarkMode}>
     <div class="radio-group">
-        <input type="radio" name={name} id={id} on:change on:input value={value} bind:group={groupName} >
-        <label for={name}>{label}</label>
-    </div>
+      <input type="radio" name={name} id={id} on:change on:input value={value} bind:group={groupName} >
+      <label for={name} >{label}</label>
+  </div>
+   </div>
     {/if}
 
 <style type="text/scss">
@@ -20,6 +25,10 @@ export let groupName;
 @import "../scss/mixins/_mixins.scss";
 @import "../scss/variables/_variables.scss";
 @import "../scss/style.scss";
+
+:global(.dark-mode .radio-group input[type="radio"]:checked + label) {
+    background-color: $bg-primary-dark !important;
+}
  .radio-group{
   width: 150px;
   height: 45px;
@@ -49,6 +58,9 @@ export let groupName;
   border-radius: 5px 0px 0px 5px;
   color: #fff;
 }
+
+
+
 
 .radio-group label {
   cursor: pointer;

@@ -5,6 +5,10 @@ import Icon from 'svelte-awesome';
 import close from 'svelte-awesome/icons/close';
 import { createEventDispatcher } from "svelte";
 
+export let ticketBookedData;
+
+
+
 const dispatch = createEventDispatcher();
 
 function closeModal() {
@@ -18,8 +22,16 @@ function closeModal() {
     <!-- Modal content -->
     <div class="modal-content">
       <button class="close" on:click={closeModal}>&times;</button>
-      <p>{modalText}</p>
+      <p>   Your Ticket has been sucessfully booked</p>
      <div class="text-center">
+      <div class="row d-flex ">
+        <p>From : {ticketBookedData.from.city_name}</p>
+        <p class="ml-3">To : {ticketBookedData.to.city_name}</p>
+      </div>
+      <div class="row d-flex ">
+        <p>Departure : {ticketBookedData.departureTimeVal}</p>
+        <p class="ml-3">Arriving Time : {ticketBookedData.arrivalTimeVal}</p>
+      </div>
       <i class="fa-solid fa-circle-check fa-2x text-center"></i>
      </div>
     </div>
@@ -58,7 +70,10 @@ function closeModal() {
   top: 50%;
   left: 50%;
   transform: translate(-50% , -50%);
-
+  .justify-content-between
+  {
+    justify-content: space-between;
+  }
   .close {
     position: absolute;
     top: 20px;

@@ -2,6 +2,7 @@
 export let caption;
 export let changeBtnStyle;
 export let btnClass;
+
 </script>
 
 <div>
@@ -19,6 +20,11 @@ export let btnClass;
     .btn{
         border: none;
         font-family: $regular-pb;
+        background-color: $text-primary;
+        color:$text-white;
+    }
+    .btn.dark-mode{
+        background-color: $bg-primary-dark;
     }
     .btn-lg{
         padding: 1.5rem 3.5rem;

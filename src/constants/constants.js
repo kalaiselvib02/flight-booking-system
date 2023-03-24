@@ -77,6 +77,10 @@ export const APP_CONSTANTS = {
         BODY:"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry."
     },
     ERROR_MESSAGES:{
-        SAME_CITY_ERROR:"From and To Cities cannot be same"
+        SAME_CITY_ERROR:"From and To Cities cannot be same",
+        FROM_CITY_ERROR:"Please Choose From City",
+        TO_CITY_ERROR:"Please Choose To City",
+        DEPARTURE_DATE_ERROR:"Please Choose Departure Date",
+        RETURN_DATE_ERROR:"Please Choose Return Date",
     }
 }

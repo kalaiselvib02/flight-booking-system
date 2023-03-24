@@ -35,7 +35,7 @@ import Button from "./Button.svelte";
                     <p class="text-lg text-bold">5654</p>
                 </td>
                 <td>
-                    <Button caption="Book" btnClass="btn btn-md btn-blue btn-rounded-md" changeBtnStyle={true}></Button>
+                    <Button  caption="Book" btnClass="btn btn-md  btn-rounded-md" changeBtnStyle={true}></Button>
                 </td>
             </tr>
         </tbody>

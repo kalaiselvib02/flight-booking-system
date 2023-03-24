@@ -100,6 +100,15 @@ color: $text-primary;
 padding-left: 1.6rem;
 font-family: $regular-pb;
 }
+// Dar Mode css // 
+:global(.dark-mode .s-input label) {
+    color: $text-white;
+    font-family: $regular-pb;
+}
+:global(.dark-mode .s-text-field__input input[type="text"]){
+    color: $text-white;
+   background-color: $bg-primary-dark ;
+    }
 :global(.s-list-item__title){
     color: $text-primary;
     font-family: $regular-pb;

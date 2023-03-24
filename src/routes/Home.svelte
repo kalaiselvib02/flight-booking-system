@@ -1,20 +1,18 @@
 <script>
 import Icon from 'svelte-awesome';
 import ticket from 'svelte-awesome/icons/ticket';
-
+import Header from '../__layout/Header.svelte';
 import TicketBooking from "./TicketBooking.svelte";
+import {isDarkModeValue} from "../store/store"
 
 
 </script>
 
-<div class="home-page-wrapper">
+<div class="home-page-wrapper" >
     <div class="overlay">
-         <header>
-            <h5 class="logo-text d-flex"><Icon scale="2" data={ticket}/> 
-                 <span class="ml-2">Udaan</span></h5>
-         </header>
+         <Header bind:$isDarkModeValue/>
          <div class="d-flex flex-column flex-center align-items-center h-100">
-            <TicketBooking  btnText="Search" />
+            <TicketBooking  btnText="Search" isDarkMode={$isDarkModeValue}/>
          </div>
     </div>
 </div>

@@ -13,7 +13,11 @@
     export let btnText;
     export let updateSearch;
     export let changeBtnStyle;
-    let timeValue
+    export let isDarkMode;
+
+
+    let timeValue;
+    let isDisabled;
     
 
     const citiesUrl = APP_CONSTANTS.SELECT_CITY.URL;
@@ -24,12 +28,14 @@
    let selectedTripOption = $ticketSelection && $ticketSelection.isRoundTrip ? APP_CONSTANTS.TRIP_DATA.ROUND_TRIP : APP_CONSTANTS.TRIP_DATA.ONE_WAY
    $:selectedTripOption === APP_CONSTANTS.TRIP_DATA.ROUND_TRIP ?   $ticketSelection.isRoundTrip = true :  $ticketSelection.isRoundTrip = false 
 
-   let sameCityError = false;
+    let sameCityError = false;
 
     //  Show Same City Error
     $:$ticketSelection.selectedFromCity && 
     ($ticketSelection.selectedFromCity === $ticketSelection.selectedToCity) ? sameCityError = true 
     : sameCityError = false;
+
+
    
 
 
@@ -40,19 +46,44 @@
         value : ""
     }; 
 
+    function validateForm() {
+   
+        fromCityRequired = !$ticketSelection.selectedFromCity.length ? true : false;
+        toCityRequired = !$ticketSelection.selectedToCity.length ? true : false;
+        departureDateRequired = !$ticketSelection.selectedDepartureDate ? true : false;
+        arrivalDateRequired = !$ticketSelection.selectedReturnDate ? true : false;
+        
+        if(fromCityRequired || toCityRequired || departureDateRequired) {
+            isDisabled = true;
+            
+        }
+        window.location.href="#/search-results"
+    }
 
  
     //  Storing ticket in local storage //
     $:window.localStorage.setItem("ticket" , JSON.stringify($ticketSelection)) || {};
- 
+   
+   
+    let fromCityRequired = false;
+    let toCityRequired = false;
+    let departureDateRequired = false;
+    let arrivalDateRequired = false;
+
+  
+
+   
+   
    
     let showLoaderText;
    
-   
+ 
 
     // $:$ticketSelection , fetchCities(flightsUrl)
 
     async function fetchFlights (flightsUrl)   {
+   
+
     showLoader();
     try{
     const res = await fetch(flightsUrl);
@@ -153,9 +184,9 @@
                 id="one-way"
                 label="One - way"
                 groupName={selectedTripOption}
-                on:input={(event) => { selectedTripOption = event.target.value;
+                on:input={(event) => { selectedTripOption = event.target.value
                 }}
-               
+                bind:isDarkMode
                 />
                 <Radio
                 type='radio'
@@ -166,17 +197,22 @@
                 groupName={selectedTripOption}
                 on:input={(event) => { selectedTripOption = event.target.value;
                 }}
-               
+                bind:isDarkMode
                 />
             </div>
-            <div class="ticket-selection-wrapper" class:d-flex={changeBtnStyle}>
-                <div class="input-group-wrapper d-flex">
-                <div class="d-flex w-100 p-relative">
+            <div class="ticket-selection-wrapper" class:d-flex={changeBtnStyle} class:dark-mode={isDarkMode}>
+                <div class="input-group-wrapper d-flex" class:dark-mode={isDarkMode}>
+                <div class="d-flex w-100 p-relative" >
+                  <div class="d-flex flex-column w-100">
                     <Select items={items} bind:value={$ticketSelection.selectedFromCity}  >
                         From
                     </Select>
-                    <div class="round-trip">
-                        <button class="text-white" on:click={() => 
+                    {#if !fromCityRequired}
+                    <Tooltip tooltipText={APP_CONSTANTS.ERROR_MESSAGES.FROM_CITY_ERROR}/>
+                    {/if}
+                  </div>
+                    <div class="round-trip" >
+                        <button on:click={() => 
                     {
                     return swapCities($ticketSelection.selectedToCity , $ticketSelection.selectedFromCity)
                     }
@@ -187,36 +223,47 @@
                     <Select items={items} bind:value={$ticketSelection.selectedToCity}  id="test">
                         To
                     </Select>
-                    {#if sameCityError}
-                    <Tooltip tooltipText={APP_CONSTANTS.ERROR_MESSAGES.SAME_CITY_ERROR}/>
+                    {#if !toCityRequired}
+                    <Tooltip tooltipText={APP_CONSTANTS.ERROR_MESSAGES.FROM_CITY_ERROR}/>
                     {/if}
                    
                 </div>
                 <div class="date-input-wrapper d-flex">
-                    <DateInput value={$ticketSelection.selectedDepartureDate} on:input={(event) => $ticketSelection.selectedDepartureDate = event.target.value}/>
-                    <DateInput 
-                    value={$ticketSelection.selectedReturnDate} 
-                    on:input={(event) => $ticketSelection.selectedReturnDate = event.target.value}
-                    isDisabled={selectedTripOption === APP_CONSTANTS.TRIP_DATA.ONE_WAY}/>
+                   <div class="d-flex flex-column">
+                    <DateInput  bind:isDarkMode value={$ticketSelection.selectedDepartureDate} on:input={(event) => $ticketSelection.selectedDepartureDate = event.target.value}/>
+                        {#if !departureDateRequired}
+                        <Tooltip tooltipText={APP_CONSTANTS.ERROR_MESSAGES.DEPARTURE_DATE_ERROR}/>
+                        {/if}
+                   </div>
+                    <div class="d-flex flex-column">
+                        <DateInput bind:isDarkMode 
+                        value={$ticketSelection.selectedReturnDate} 
+                        on:input={(event) => $ticketSelection.selectedReturnDate = event.target.value}
+                        isDisabled={selectedTripOption === APP_CONSTANTS.TRIP_DATA.ONE_WAY}/>
+                        {#if !arrivalDateRequired}
+                        <Tooltip tooltipText={APP_CONSTANTS.ERROR_MESSAGES.RETURN_DATE_ERROR}/>
+                        {/if}
+                    </div>
                 </div>
-                
                 </div>
                         {#if updateSearch} 
                        <div>
-                        <Button btnClass="btn btn-lg btn-blue" caption={btnText} changeBtnStyle=true  on:click={ async  () =>  fetchFlights(flightsUrl)}/>
+                        <Button darkMode={isDarkMode} btnClass="btn btn-lg" caption={btnText} changeBtnStyle=true 
+                        disabled={isDisabled}
+                         on:click={ async  () =>  fetchFlights(flightsUrl)}/>
                        </div>
                         {:else}
                         <div class="d-flex flex-end">
-                           
-                            <a href="#/search-results">
-                                <Button btnClass="btn btn-md btn-blue mt-4" 
+                            <a>
+                                <Button btnClass="btn btn-md mt-4" 
                                 caption={btnText} 
+                                on:click={validateForm}
+                                darkMode={isDarkMode} 
                                 changeBtnStyle=true/>
                             </a>
                         </div>                      
                         {/if}
             </div>
-          
         </div>
 
         <style type="text/scss">
@@ -224,11 +271,21 @@
         @import "../scss/mixins/_mixins.scss";
         @import "../scss/variables/_variables.scss";
         @import "../scss/style.scss";
+
+            :global(.dark-mode .s-select){
+                background-color: $bg-primary-dark ;
+            }
+           
             .form-wrapper{
                 width: 80%;
             }
             .ticket-selection-wrapper {
                 margin: 1.5rem 0rem;
+                &.dark-mode {
+                    button.btn{
+                        background-color: $bg-primary-dark !important;
+                    }
+                }
             }
             .flex-row-layout{
                 display: flex;
@@ -248,7 +305,24 @@
                     height: 45px;
                     width: 45px;
                     text-align: center;
-
+                    color: $text-white;
                 }
             }
+            :global(.dark-mode .round-trip button){
+                background-color: $bg-white !important;
+                color: $text-primary !important;;
+            }
+            :global(.dark-mode .date-input-wrapper .input-item) {
+                background-color: $bg-primary-dark;
+                color: $text-white;
+            }
+            :global(.dark-mode .date-input-wrapper .input-item:disabled) {
+                background-color: #ccc;
+                color: $text-white;
+            }
+            :global(.dark-mode button) {
+                background-color: $bg-white !important;
+                color: $text-primary !important;
+            }
+            
         </style>

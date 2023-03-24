@@ -15,6 +15,7 @@ export const selectedAirlineOptions = writable([]);
 export const selectedDepartureOptions = writable([]);
 export const selectedReturnOptions = writable([]);
 export const filteredValues = writable([]);
+export const isDarkModeValue = writable("false");
 
 
 

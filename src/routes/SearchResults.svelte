@@ -7,21 +7,22 @@
     import Table from "../ui/Table.svelte";
     import Modal from "../ui/Modal.svelte";
     import Button from "../ui/Button.svelte";
-    import {ticketSelection , flightData ,   selectedAirlineOptions  , filteredValues , selectedDepartureOptions, selectedReturnOptions
+    import {ticketSelection , flightData ,  isDarkModeValue,  selectedAirlineOptions  , filteredValues , selectedDepartureOptions, selectedReturnOptions
     } from "../store/store.js";
     import { onMount , onDestroy} from "svelte";
     import Chart from "../ui/Chart.svelte";
     import { createEventDispatcher } from "svelte";
     import DoubleRangeSlider from '../ui/DoubleRange.svelte';
-    import RangeSlider from 'svelte-range-slider-pips'
+    import Header from "../__layout/Header.svelte";
+    
 
 
     const flightsUrl = APP_CONSTANTS.FLIGHTS.URL
     let timeValue;
     let noResults
-
-    
-
+    let ticketBookedData;
+    export let isDarkMode = $isDarkModeValue;
+    let darkMode 
     let showLoaderText;
     /**CONSTANTS*/
     const tableHeadColumns = APP_CONSTANTS.TABLE.TABLE_HEAD_COLUMNS;
@@ -162,7 +163,7 @@
         selectedReturnOptions.set([])
     }
     
-   
+    $:window.localStorage.setItem("isDarkMode" , isDarkMode)
 
  
      
@@ -173,8 +174,9 @@
         
     
 
-function onTicketBooked(){
-        showModal = true;
+function onTicketBooked(ticket){
+    ticketBookedData = ticket
+    showModal = true;
 } 
 function handleCloseModal(event) {
     showModal = event.detail
@@ -204,31 +206,25 @@ end = mathFlightPrice
 	}
 </script>
 
-<div class="search-results-wrapper">
-    <header>
-        <h5 class="logo-text d-flex"><Icon scale="2" data={ticket}/> 
-             <span class="ml-2">Udaan</span></h5>
-     </header>
+<div class="search-results-wrapper" class:dark-mode={isDarkMode}>
+    <Header bind:$isDarkModeValue/>
     <div class="light-bg ticket-booking-wrapper">
-        <TicketBooking  btnText="Update Search" updateSearch={true} changeBtnStyle={true}/>
+        <TicketBooking  btnText="Update Search"  darkMode={isDarkMode} updateSearch={true} changeBtnStyle={true}/>
     </div>
-    <div class="results-container">
-
-       
-       
-        <div class="filter-section-wrapper d-flex flex-column">    
+    <div class="results-container h-100">
+        <div class="filter-section-wrapper d-flex flex-column" class:dark-mode={isDarkMode}>    
                 <div class="filter-section">
                     <div class="filter-heading reset-selection">
-                        <h4>Filters</h4>
+                        <h4 class:text-white={isDarkMode}>Filters</h4>
                         <div class="text-gray text-xsm">
-                            <Button caption="Reset All" on:click={resetFilterSelection}/>
+                            <Button caption="Reset All" on:click={resetFilterSelection} darkMode={isDarkMode}/>
                         </div>
                     </div>
                     
                 </div>
                 <div class="filter-section">
                     <div class="filter-heading">
-                        <h4>Departure</h4>
+                        <h4 class:text-white={isDarkMode}>Departure</h4>
                     </div>
                     <div class="filter-details grid-2-col w-80">
                         {#each departureReturn as option }
@@ -245,7 +241,7 @@ end = mathFlightPrice
                 </div>
                 <div class="filter-section">
                     <div class="filter-heading">
-                        <h4>Return</h4>
+                        <h4 class:text-white={isDarkMode}> Return</h4>
                     </div>
                     <div class="filter-details grid-2-col w-80">
                         {#each departureReturn as option }
@@ -262,43 +258,43 @@ end = mathFlightPrice
                 </div>
                 <div class="filter-section">
                     <div class="filter-heading">
-                        <h4>Price</h4>
+                        <h4 class:text-white={isDarkMode}>Price</h4>
                     </div>
                     <div class="filter-details range-slider">
                         <DoubleRangeSlider bind:start bind:end/>
                         <div class="labels">
-                            <div class="label">{nice(start)}</div>
-                            <div class="label">{nice(end)}</div>
+                            <div class="label" class:text-white={isDarkMode}>{nice(start)}</div>
+                            <div class="label" class:text-white={isDarkMode}>{nice(end)}</div>
                         </div>
                       
                     </div>
                 </div>
                 <div class="filter-section">
                     <div class="filter-heading">
-                        <h4>Preferred Airlines</h4>
+                        <h4 class:text-white={isDarkMode}>Preferred Airlines</h4>
                     </div>
                     <div class="filter-details air-line-options d-flex flex-column">
                         {#each airlinesOptions as option}
-                    <label >  <input type="checkbox"  value={option.value} bind:group={$selectedAirlineOptions}/>{option.name}</label>
+                    <label class:text-white={isDarkMode}>  <input type="checkbox"  value={option.value} bind:group={$selectedAirlineOptions}/>{option.name}</label>
                         {/each}
 
                     </div>
                 </div>
-                <div class="offer-wrapper fadeOut" class:remove-popup={hideOfferPopup}>
+                <div class="offer-wrapper fadeOut" class:remove-popup={hideOfferPopup} class:dark-mode={isDarkMode}>
                     <button on:click={() => hideOfferPopup = true} class="hide-popup-btn"><Icon data={close}/></button>
-                    <div class="popup-heading">
+                    <div class="popup-heading" class:text-white={isDarkMode}>
                         <p>{APP_CONSTANTS.OFFER_DATA.TITLE}</p>
                     </div>
-                    <div class="popup-description">
+                    <div class="popup-description" class:text-white={isDarkMode}>
                         <p>{APP_CONSTANTS.OFFER_DATA.BODY}</p>
                     </div>
                 </div>
         </div>
             {#if showLoaderText}
-            <div id="loader" >Loading...</div>
+            <div id="loader" class:text-white={isDarkMode}>Loading...</div>
             {:else}
             {#if noResults}
-            <div id="no-results-container" >Sorry , Not Data Found</div>
+            <div id="no-results-container" class:text-white={isDarkMode}>Sorry , No Data Found</div>
             {:else}
             <div class="flight-results-wrapper">
                 <div class="chart-wrapper">
@@ -309,7 +305,7 @@ end = mathFlightPrice
               
                 </div>
                 <!-- <Table thItems={tableHeadColumns} items={items} /> -->
-                <div class="table-wrapper">
+                <div class="table-wrapper" class:dark-mode={isDarkMode}>
                     <table class="table">
                         <thead>
                             <tr>
@@ -320,11 +316,11 @@ end = mathFlightPrice
                         </thead>
                         <tbody>
                             {#each $filteredValues as item}
-                            <tr>
+                            <tr class="flight-details-row">
                                 <td>
                                     <div class="d-flex align-items-center">
                                     <img src={item.airlines.logo} alt={item.airlines.name} height="25" width="25">
-                                    <p class="text-grey text-md mb-0_2 ml-2">{item.airlines.name}</p>
+                                    <p class="text-md mb-0_2 ml-2">{item.airlines.name}</p>
                                     </div>
                                     <p class="city-name mb-0_2">{item.from.IATA_code} , {item.from.city_name}</p>
                                     <p class="text-sm text-bold mb-0_2">{item.departureTimeVal}</p>
@@ -342,8 +338,8 @@ end = mathFlightPrice
                                     <p class="text-lg text-bold">&#8377 {item.price}</p>
                                 </td>
                                 <td>
-                                    <Button caption="Book" btnClass="btn btn-md btn-blue btn-rounded-md" changeBtnStyle={true} 
-                                    on:click={onTicketBooked}></Button>
+                                    <Button darkMode={isDarkMode} caption="Book" btnClass="btn btn-md btn-rounded-md" changeBtnStyle={true} 
+                                    on:click={onTicketBooked(item)}></Button>
                                 </td>
                             </tr>
                             {/each}
@@ -359,7 +355,8 @@ end = mathFlightPrice
         <Modal 
         showModal={true}
         on:close-modal={handleCloseModal}
-        modalText="Your ticket has been successfully booked"/>
+        bind:ticketBookedData
+        />
         {/if}
     </div>
 
@@ -401,7 +398,7 @@ end = mathFlightPrice
     }
     .results-container{
             display: flex;
-            height: calc(100vh - 60px);
+           
             .filter-section-wrapper{
                 width: 20%;
                 border-right: 1px solid #ccc;
@@ -449,12 +446,24 @@ end = mathFlightPrice
                             font-size: 0.8rem;
                         }
                     }
+                    &.dark-mode{
+                        background-color: $bg-dark-dark;
+                    }
+                }
+                &.dark-mode{
+                    background-color: $bg-primary-dark;
                 }
             }
+
+
             .flight-results-wrapper{
                 padding: 1.5rem;
                 width: 80%;
             }
+        }
+
+        &.dark-mode{
+                background-color: $bg-dark-dark;
         }
 
 }
@@ -552,6 +561,28 @@ canvas{
                 }
             }
         }
+    }
+    &.dark-mode{
+        background-color: $bg-dark-dark;
+        thead{
+            th {
+                color: $text-white;
+            }
+        }
+       tbody{
+        tr{
+            background-color: $bg-primary-dark;
+            td {
+            color: $text-white;
+
+            .city-name , .flight-name{
+                color: $text-white;
+            }
+           
+        }
+        }
+       }
+       
     }
 }
 

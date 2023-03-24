@@ -21,8 +21,9 @@
     let timeValue;
     let noResults
     let ticketBookedData;
-    export let isDarkMode = $isDarkModeValue;
-    let darkMode 
+    export let isDarkMode
+    $ : isDarkMode = $isDarkModeValue;
+  
     let showLoaderText;
     /**CONSTANTS*/
     const tableHeadColumns = APP_CONSTANTS.TABLE.TABLE_HEAD_COLUMNS;
@@ -163,7 +164,7 @@
         selectedReturnOptions.set([])
     }
     
-    $:window.localStorage.setItem("isDarkMode" , isDarkMode)
+  
 
  
      
@@ -207,7 +208,7 @@ end = mathFlightPrice
 </script>
 
 <div class="search-results-wrapper" class:dark-mode={isDarkMode}>
-    <Header bind:$isDarkModeValue/>
+    <Header bind:$isDarkModeValue  showHeaderBg = {true}/>
     <div class="light-bg ticket-booking-wrapper">
         <TicketBooking  btnText="Update Search"  darkMode={isDarkMode} updateSearch={true} changeBtnStyle={true}/>
     </div>

@@ -82,5 +82,9 @@ export const APP_CONSTANTS = {
         TO_CITY_ERROR:"Please Choose To City",
         DEPARTURE_DATE_ERROR:"Please Choose Departure Date",
         RETURN_DATE_ERROR:"Please Choose Return Date",
+    },
+    THEME:{
+        DARK_THEME:"Dark Theme",
+        LIGHT_THEME:"Light Theme"
     }
 }

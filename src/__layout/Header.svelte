@@ -2,24 +2,38 @@
 import Icon from 'svelte-awesome';
 import ticket from 'svelte-awesome/icons/ticket';
 import {isDarkModeValue} from '../store/store';
+import {APP_CONSTANTS} from "../constants/constants"
+    import App from '../App.svelte';
 export let isDarkMode = false;
+export let showHeaderBg
 
 $:isDarkModeValue.set(isDarkMode)
 
 
 
+
+$:isDarkMode = $isDarkModeValue
+
+
+
 </script>
 
-<header class="d-flex justify-between">
+<header class="d-flex justify-between" class:bg-primary={showHeaderBg}>
     <h5 class="logo-text d-flex"><Icon scale="2" data={ticket}/> 
          <span class="ml-2">Udaan</span>
     </h5>
+	<div class="d-flex align-center"  class:d-none={!showHeaderBg}>
+		<p class="mb-0 text-white">{APP_CONSTANTS.THEME.LIGHT_THEME}</p>
     <label class="checkgroup" for="toggle">
+		
         <span class="checkbox">
             <input name="toggle" id="toggle" type="checkbox" bind:checked={$isDarkModeValue}>
             <span class="checkmark"></span>
         </span>
+	
     </label>
+	<p class="mb-0 text-white" >{APP_CONSTANTS.THEME.DARK_THEME}</p>
+	</div>
  </header>
 
 <style type="text/scss">
@@ -29,9 +43,16 @@ $:isDarkModeValue.set(isDarkMode)
 @import "../scss/style.scss";
 
 header{
+	padding: 1rem 0.8rem;
    &.justify-between{
         justify-content: space-between;
     }
+	.align-center{
+		align-items: center;
+	}
+	&.bg-primary{
+		background-color: $text-primary;
+	}
 }
 .logo-text{
         color: $text-white;
@@ -39,22 +60,9 @@ header{
         font-size: $_header-logo-lg;
         letter-spacing: 1.2px;
     }
-$dark: #1f1f27;
-$gray-dark: #353746;
-$gray: #545E75;
-$gray-light: #f0eff3;
-$white: #ffffff;
-$red: #f8174b;
-$orange: #f46036;
-$green: #00F260;
-$blue: #0575E6;
-$offwhite: #f9f9fc;
-$transition: all .2s ease-in-out;
 
-@mixin size($width, $height: $width) {
-	width: $width;
-	height: $height;
-}
+
+
     .checkgroup {
 	display: block;
 	cursor: pointer;
@@ -63,9 +71,9 @@ $transition: all .2s ease-in-out;
 	.checkbox {
 		display: block;
 		position: relative;
-		width: 2.5rem;
-		height: 0.5rem;
-		background: linear-gradient(130deg, $green, $blue);
+		width: 2.3rem;
+		height: 0.2rem;
+		background: #fff;
 		border-radius: 25px;
 
 		input[type="checkbox"] {
@@ -74,19 +82,19 @@ $transition: all .2s ease-in-out;
 			visibility: hidden;
 
 			&:checked ~ .checkmark {
-				top: -0.8rem;
-				left: 1.5rem;
+				top: -0.4rem;
+				left: 1rem;
 			}
 		}
 
 		.checkmark {
 			display: block;
 			position: absolute;
-			@include size(2.2rem);
-			background: $gray;
+			@include size(0.9rem);
+			background:#3d6da5;
 			border-radius: 50%;
-			top: -0.8rem;
-			left: -1rem;
+			top: -0.4rem;
+			left: 0rem;
 			transition: $transition;
 			
 			&.light {
@@ -100,7 +108,6 @@ $transition: all .2s ease-in-out;
 			&::before {
 				font-family: "Font Awesome 5 Free";
 				color: $white;
-				content: "\f186";
 				font-size: 0.8rem;
 				position: absolute;
 				top: 50%;

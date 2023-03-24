@@ -48,18 +48,27 @@
         value : ""
     }; 
 
+  
+
+    let fromCityRequired = false;
+    let toCityRequired = false;
+    let departureDateRequired = false;
+    let arrivalDateRequired = false;
+
+  
+       
     function validateForm() {
    
         fromCityRequired = !$ticketSelection.selectedFromCity.length ? true : false;
         toCityRequired = !$ticketSelection.selectedToCity.length ? true : false;
         departureDateRequired = !$ticketSelection.selectedDepartureDate ? true : false;
-        arrivalDateRequired = !$ticketSelection.selectedReturnDate ? true : false;
+        arrivalDateRequired = !$ticketSelection.selectedReturnDate && !$ticketSelection.isRoundTrip ? false : true;
         
-        if(fromCityRequired || toCityRequired || departureDateRequired) {
-            isDisabled = true;
-            
-        }
+        isDisabled =   (fromCityRequired || toCityRequired || departureDateRequired) ? true : false 
+          
+       if(!isDisabled){ 
         window.location.href="#/search-results"
+       }
     }
 
  
@@ -67,10 +76,7 @@
     $:window.localStorage.setItem("ticket" , JSON.stringify($ticketSelection)) || {};
    
    
-    let fromCityRequired = false;
-    let toCityRequired = false;
-    let departureDateRequired = false;
-    let arrivalDateRequired = false;
+   
 
   
 
@@ -209,7 +215,7 @@
                     <Select items={items} bind:value={$ticketSelection.selectedFromCity}  >
                         From
                     </Select>
-                    {#if !fromCityRequired}
+                    {#if fromCityRequired}
                     <Tooltip tooltipText={APP_CONSTANTS.ERROR_MESSAGES.FROM_CITY_ERROR}/>
                     {/if}
                   </div>
@@ -225,7 +231,7 @@
                     <Select items={items} bind:value={$ticketSelection.selectedToCity}  id="test">
                         To
                     </Select>
-                    {#if !toCityRequired}
+                    {#if toCityRequired}
                     <Tooltip tooltipText={APP_CONSTANTS.ERROR_MESSAGES.FROM_CITY_ERROR}/>
                     {/if}
                    
@@ -233,7 +239,7 @@
                 <div class="date-input-wrapper d-flex">
                    <div class="d-flex flex-column">
                     <DateInput  bind:isDarkMode value={$ticketSelection.selectedDepartureDate} on:input={(event) => $ticketSelection.selectedDepartureDate = event.target.value}/>
-                        {#if !departureDateRequired}
+                        {#if departureDateRequired}
                         <Tooltip tooltipText={APP_CONSTANTS.ERROR_MESSAGES.DEPARTURE_DATE_ERROR}/>
                         {/if}
                    </div>
@@ -242,7 +248,7 @@
                         value={$ticketSelection.selectedReturnDate} 
                         on:input={(event) => $ticketSelection.selectedReturnDate = event.target.value}
                         isDisabled={selectedTripOption === APP_CONSTANTS.TRIP_DATA.ONE_WAY}/>
-                        {#if !arrivalDateRequired}
+                        {#if arrivalDateRequired}
                         <Tooltip tooltipText={APP_CONSTANTS.ERROR_MESSAGES.RETURN_DATE_ERROR}/>
                         {/if}
                     </div>
@@ -259,6 +265,7 @@
                             <a>
                                 <Button btnClass="btn btn-md mt-4" 
                                 caption={btnText} 
+                                disabled={isDisabled}
                                 on:click={validateForm}
                                 darkMode={isDarkMode} 
                                 changeBtnStyle=true/>

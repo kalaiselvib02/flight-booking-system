@@ -209,7 +209,7 @@ end = mathFlightPrice
 
 <div class="search-results-wrapper" class:dark-mode={isDarkMode}>
     <Header bind:$isDarkModeValue  showHeaderBg = {true}/>
-    <div class="light-bg ticket-booking-wrapper">
+    <div class="ticket-booking-wrapper" class:dark-mode={isDarkMode}>
         <TicketBooking  btnText="Update Search"  darkMode={isDarkMode} updateSearch={true} changeBtnStyle={true}/>
     </div>
     <div class="results-container h-100">
@@ -395,7 +395,11 @@ end = mathFlightPrice
     }
     .ticket-booking-wrapper{
         padding: $container-padding-sm;
-    
+        background-color: #F8F8F8;
+
+        &.dark-mode{
+            background-color: $bg-dark-black;
+        }
     }
     .results-container{
             display: flex;

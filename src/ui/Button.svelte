@@ -2,11 +2,12 @@
 export let caption;
 export let changeBtnStyle;
 export let btnClass;
+export let isDisabled
 
 </script>
 
 <div>
-    <button class={btnClass} on:click>{caption}</button>
+    <button class={btnClass} on:click disabled={isDisabled}>{caption} </button>
 </div>
 
 

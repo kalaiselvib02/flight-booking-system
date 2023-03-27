@@ -54,7 +54,7 @@ export const APP_CONSTANTS = {
         ],
         AIRLINES_OPTIONS:[
            {
-            name: "Indigo",
+            name: "Indigo Airlines",
             value:"Indigo"
            },
            {

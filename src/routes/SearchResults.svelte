@@ -166,7 +166,11 @@
     
   
 
- 
+ function hidePopup() {
+ if(hideOfferPopup) return ;
+
+   hideOfferPopup = true
+ }
      
    
   
@@ -282,7 +286,7 @@ end = mathFlightPrice
                     </div>
                 </div>
                 <div class="offer-wrapper fadeOut" class:remove-popup={hideOfferPopup} class:dark-mode={isDarkMode}>
-                    <button on:click={() => hideOfferPopup = true} class="hide-popup-btn"><Icon data={close}/></button>
+                    <button on:click={hidePopup} class="hide-popup-btn" class:text-white={isDarkMode}><Icon data={close}/></button>
                     <div class="popup-heading" class:text-white={isDarkMode}>
                         <p>{APP_CONSTANTS.OFFER_DATA.TITLE}</p>
                     </div>
@@ -297,11 +301,11 @@ end = mathFlightPrice
             {#if noResults}
             <div id="no-results-container" class:text-white={isDarkMode}>Sorry , No Data Found</div>
             {:else}
-            <div class="flight-results-wrapper">
+            <div class="flight-results-wrapper" class:dark-mode={isDarkMode}>
                 <div class="chart-wrapper">
                     <div class="chart-wrapper">
                         <h4 class="chart-heading">Flight Prices</h4>
-                        <Chart />
+                        <Chart darkMode={isDarkMode}/>
                     </div>
               
                 </div>
@@ -311,7 +315,7 @@ end = mathFlightPrice
                         <thead>
                             <tr>
                                 {#each tableHeadColumns as thItem}
-                                    <th>{thItem}</th>
+                                    <th >{thItem}</th>
                                 {/each} 
                             </tr>
                         </thead>
@@ -335,10 +339,10 @@ end = mathFlightPrice
                                     <p class="city-name mb-0_2">{item.to.IATA_code} , {item.to.city_name}</p>
                                     <p class="text-sm text-bold">{item.arrivalTimeVal}</p>
                                 </td>
-                                <td>
+                                <td class="text-center">
                                     <p class="text-lg text-bold">&#8377 {item.price}</p>
                                 </td>
-                                <td>
+                                <td class="text-center">
                                     <Button darkMode={isDarkMode} caption="Book" btnClass="btn btn-md btn-rounded-md" changeBtnStyle={true} 
                                     on:click={onTicketBooked(item)}></Button>
                                 </td>
@@ -414,6 +418,20 @@ end = mathFlightPrice
                     h4{
                         font-size: 1rem;
                         font-family: $regular-pb;
+                        margin-bottom: 0.55rem;
+                    }
+
+                    .filter-details 
+                    {
+                        &.air-line-options{
+                          label{
+                            margin-bottom: 0.35rem;
+
+                            input[type = "checkbox"] {
+                                margin-right: 0.35rem;
+                            }
+                          }
+                        }
                     }
                     .reset-selection{
                         display: flex;
@@ -431,13 +449,13 @@ end = mathFlightPrice
                         float: right;
                         color: $text-grey;
                     }
-                    .fadeOut {
+                    &.fadeOut {
                         animation: fadeInAnimation ease 3s;
                         animation-iteration-count: 1;
                         animation-fill-mode: forwards;
                     }
                    &.remove-popup{
-                  
+                  display: none;
                    }
                     .popup-heading {
                         p{
@@ -457,6 +475,10 @@ end = mathFlightPrice
                 }
                 &.dark-mode{
                     background-color: $bg-primary-dark;
+                    .pill-list-label {
+                        background-color: $bg-dark-dark;  
+                        color: $text-white;
+                    }
                 }
             }
 
@@ -464,6 +486,14 @@ end = mathFlightPrice
             .flight-results-wrapper{
                 padding: 1.5rem;
                 width: 80%;
+                &.dark-mode{
+                    .chart-wrapper{
+                        background-color: $bg-primary-dark;
+                        .chart-heading {
+                            color: $text-white;
+                        }
+                    }
+                }
             }
         }
 
@@ -514,7 +544,7 @@ canvas{
   background-color: $bg-light;
   font-family: $light-pb;
   display: inline-block;
-  margin-bottom: 0.35rem;
+  margin-bottom: 0.65rem;
   border-radius: 0.35rem;
 }
 .pill-list-item
@@ -551,6 +581,10 @@ canvas{
                 font-size: $table-head;
                 color: $text-th;
                 text-align: left;
+
+                &:nth-child(4){
+                    text-align: center;
+                }
             }
         }
         tbody{

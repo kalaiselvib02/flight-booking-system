@@ -1,7 +1,7 @@
 <script>
     import { Line } from 'svelte-chartjs';
   
-    import {filteredValues
+    import {filteredValues, isDarkModeValue
     } from "../store/store";
     import {
       Chart as ChartJS,
@@ -14,6 +14,8 @@
       CategoryScale,
     } from 'chart.js';
 
+  export let darkMode;
+
 
  const priceData = $filteredValues.map(flight => flight.price);
 
@@ -21,22 +23,22 @@
     labels: ['Aug1', 'Aug2', 'Aug3', 'Aug4', 'Aug5','Aug6','Aug7','Aug8','Aug9','Aug10','Aug11','Aug12','Aug13','Aug14','Aug15'],
     datasets: [
       {
-        label: 'My First dataset',
+        label: '',
         fill: true,
         lineTension: 0.1,
         backgroundColor: 'rgba(225, 204,230, .3)',
-        borderColor: '#295589',
+        borderColor: darkMode ?  "#ccc" :  '#295589',
         borderCapStyle: 'none',
         borderDash: [],
         borderDashOffset: 0.0,
         borderJoinStyle: 'round',
-        pointBorderColor: '#295589',
-        pointBackgroundColor: '#295589',
+        pointBorderColor: darkMode ?  "#ccc" :  '#295589',
+        pointBackgroundColor: darkMode ? "#ccc" : '#295589',
         pointBorderWidth: 5,
         borderWidth : 2,
         pointHoverRadius: 5,
-        pointHoverBackgroundColor: 'rgb(0, 0, 0)',
-        pointHoverBorderColor: 'rgba(220, 220, 220,1)',
+        pointHoverBackgroundColor: darkMode ?  "#ccc" :  '#295589',
+        pointHoverBorderColor: darkMode ?  "#ccc" :  '#295589',
         pointHoverBorderWidth: 2,
         pointRadius: 1,
         pointHitRadius: 3,

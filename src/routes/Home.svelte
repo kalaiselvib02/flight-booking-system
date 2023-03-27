@@ -7,24 +7,29 @@ import {isDarkModeValue} from "../store/store"
 
 
 </script>
-
+<!--Start of Home page wrapper-->
 <div class="home-page-wrapper" >
+    <!--Start of overlay-->
     <div class="overlay">
+        <!--Start of Header-->
          <Header bind:$isDarkModeValue/>
          <div class="d-flex flex-column flex-center align-items-center h-100">
+            <!--Start of TicketBooking-->
             <TicketBooking  btnText="Search" isDarkMode={$isDarkModeValue}/>
          </div>
+         <!--Start of Home page wrapper-->
     </div>
+    <!--End of overlay-->
 </div>
+<!--End of Home page wrapper-->
 
-<slot></slot>
 
 <style type="text/scss">
 @import "../scss/fonts/_fonts.scss";
 @import "../scss/mixins/_mixins.scss";
 @import "../scss/variables/_variables.scss";
 @import "../scss/style.scss";
-
+/** Start of home pager wrapper */
 .home-page-wrapper{
     background: url("/assets/images/flight-background.jpg") center no-repeat;
     background-size: cover;
@@ -35,6 +40,8 @@ import {isDarkModeValue} from "../store/store"
     flex-direction: column;
     justify-content: center;
     position: relative;
+    
+    /** Start of overlay */
     .overlay{
     position: absolute;
     top: 0;
@@ -46,12 +53,17 @@ import {isDarkModeValue} from "../store/store"
     width: 100%;
     padding: $container-padding;
     }
+    /** End of overlay */
 }
-   
+/** End of home pager wrapper */
+
+   /** Start of logo text */
     .logo-text{
         color: $text-white;
         font-family: $reg-italic-pb;
         font-size: $_header-logo-lg;
         letter-spacing: 1.2px;
     }
+    /** End of logo text*/
+
 </style>

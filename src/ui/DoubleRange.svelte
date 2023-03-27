@@ -90,8 +90,8 @@
 			use:draggable
 			on:dragmove|preventDefault|stopPropagation="{setHandlesFromBody}"
 			style="
-				left: {100 * start}%;
-				right: {100 * (1 - end)}%;
+				left: {1 * start}%;
+				right: {1 * (1 - end)}%;
 			"
 			></div>
 		<div
@@ -101,7 +101,7 @@
 			use:draggable
 			on:dragmove|preventDefault|stopPropagation="{setHandlePosition('start')}"
 			style="
-				left: {100 * start}%
+				left: {1 * start}%
 			"
 		></div>
 		<div
@@ -110,7 +110,7 @@
 			use:draggable
 			on:dragmove|preventDefault|stopPropagation="{setHandlePosition('end')}"
 			style="
-				left: {100 * end}%
+				left: {1 * end}%
 			"
 		></div>
 	</div>

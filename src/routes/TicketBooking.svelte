@@ -9,7 +9,7 @@
     import { onMount , onDestroy} from "svelte";
     import Tooltip from '../ui/Tooltip.svelte';
 
-  
+   // Start of export variables //
     export let changeFormLayout;
     export let btnText;
     export let updateSearch;
@@ -17,46 +17,33 @@
     export let isDarkMode;
     
 
-
+    // Start of private variables //
     let timeValue;
     let isDisabled;
-    
-
-    const citiesUrl = APP_CONSTANTS.SELECT_CITY.URL;
-    const flightsUrl = APP_CONSTANTS.FLIGHTS.URL
     let selectedFromCity = $ticketSelection.fromCity;
     let selectedToCity = $ticketSelection.toCity;
-
-   let selectedTripOption = $ticketSelection && $ticketSelection.isRoundTrip ? APP_CONSTANTS.TRIP_DATA.ROUND_TRIP : APP_CONSTANTS.TRIP_DATA.ONE_WAY
-   $:selectedTripOption === APP_CONSTANTS.TRIP_DATA.ROUND_TRIP ?   $ticketSelection.isRoundTrip = true :  $ticketSelection.isRoundTrip = false 
-
-    let sameCityError = false;
-
-    //  Show Same City Error
-    $:$ticketSelection.selectedFromCity && 
-    ($ticketSelection.selectedFromCity === $ticketSelection.selectedToCity) ? sameCityError = true 
-    : sameCityError = false;
-
-
-   
-
-
-    
+      
     let items = [];
     let city = {
         name : "",
         value : ""
     }; 
-
-  
-
     let fromCityRequired = false;
     let toCityRequired = false;
     let departureDateRequired = false;
     let arrivalDateRequired = false;
+    let showLoaderText;
+    
+    // Start of const variables //
+    const citiesUrl = APP_CONSTANTS.SELECT_CITY.URL;
+    const flightsUrl = APP_CONSTANTS.FLIGHTS.URL
+ 
+    // To Check if roundTrip is enabled //
+   let selectedTripOption = $ticketSelection && $ticketSelection.isRoundTrip ? APP_CONSTANTS.TRIP_DATA.ROUND_TRIP : APP_CONSTANTS.TRIP_DATA.ONE_WAY
+   $:selectedTripOption === APP_CONSTANTS.TRIP_DATA.ROUND_TRIP ?   $ticketSelection.isRoundTrip = true :  $ticketSelection.isRoundTrip = false 
 
-  
-       
+
+    // Start of validateForm function
     function validateForm() {
    
         fromCityRequired = !$ticketSelection.selectedFromCity.length ? true : false;
@@ -70,32 +57,13 @@
         window.location.href="#/search-results"
        }
     }
+    // End of validateForm()
 
- 
-    //  Storing ticket in local storage //
-    $:window.localStorage.setItem("ticket" , JSON.stringify($ticketSelection)) || {};
-   
-   
-   
-
-  
-
-   
-   
-   
-    let showLoaderText;
-   
- 
-
-    // $:$ticketSelection , fetchCities(flightsUrl)
-
-    async function fetchFlights (flightsUrl)   {
-   
-
+    // Start of function fetchFlights
+    async function fetchFlights (flightsUrl){
     showLoader();
     try{
     const res = await fetch(flightsUrl);
-   
     const jsonResult = await res.json();
     if(jsonResult.length) {
         showLoaderText = true
@@ -134,10 +102,12 @@
       }
      
     }
+    // End of function fetchFlights
 
     function showLoader(){showLoaderText = true ; }
     function hideLoader(){ showLoaderText = false ;}
 
+    // Start of fetchCities()
     async function fetchCities(url){
         await fetch(url)
         .then(response => response.json())
@@ -157,8 +127,9 @@
             return [];
         });
     }
+    // End of fetchCities()
 
-
+    // Start of getTimes()
     function getTime(timeval) {
             let time = new Date(timeval);
             timeValue = (time.getUTCHours() < 10 ? "0"+time.getUTCHours() : time.getUTCHours()) 
@@ -166,25 +137,25 @@
             + (time.getUTCMinutes() < 10 ? "0"+time.getUTCMinutes() : time.getUTCMinutes());
             return timeValue
     }
+     // Start of getTimes()
 
     onMount(() => {
         fetchCities(citiesUrl);
-       //  fetchFlights(flightsUrl)
     });
 
- 
- 
-
-
- 
+    // Start of swapCities()
     const swapCities = (fromCity , toCity) => { 
             $ticketSelection.selectedFromCity = fromCity;
             $ticketSelection.selectedToCity = toCity;
     }
+    // End of swapCities()
 
 </script>
+        <!--Start of form-wrapper-->
         <div class="form-wrapper">
+            <!--Start of radiogroup-wrapper-->
             <div class="radiogroup-wrapper d-flex">
+                <!--Start of Radio Component - One-way-->
                 <Radio
                 type='radio'
                 name="tripOption"
@@ -196,6 +167,9 @@
                 }}
                 bind:isDarkMode
                 />
+                <!--End of Radio Component - One-way-->
+
+                <!--Start of Radio Component - Round-trip-->
                 <Radio
                 type='radio'
                 name="tripOption"
@@ -207,14 +181,21 @@
                 }}
                 bind:isDarkMode
                 />
+                <!--End of Radio Component - Round-trip-->
             </div>
+            <!--End of radiogroup-wrapper-->
+
+            <!--Start of ticket-selection-wrapper-->
             <div class="ticket-selection-wrapper" class:d-flex={changeBtnStyle} class:dark-mode={isDarkMode}>
+                <!--End of input-group-wrapper-->
                 <div class="input-group-wrapper d-flex" class:dark-mode={isDarkMode}>
                 <div class="d-flex w-100 p-relative" >
                   <div class="d-flex flex-column w-100">
+                    <!--Start of Select Cities - From City-->
                     <Select items={items} bind:value={$ticketSelection.selectedFromCity}  >
                         From
                     </Select>
+                    <!--End of Select Cities - From City-->
                     {#if fromCityRequired}
                     <Tooltip tooltipText={APP_CONSTANTS.ERROR_MESSAGES.FROM_CITY_ERROR}/>
                     {/if}
@@ -273,7 +254,10 @@
                         </div>                      
                         {/if}
             </div>
+            <!--End of ticket-selection-wrapper-->
+
         </div>
+        <!--End of form-wrapper-->
 
         <style type="text/scss">
         @import "../scss/fonts/_fonts.scss";
@@ -329,9 +313,13 @@
                 background-color: #ccc;
                 color: $text-white;
             }
-            :global(.dark-mode button) {
-                background-color: $bg-white !important;
-                color: $text-primary !important;
+            :global(.dark-mode button.btn) {
+                background-color: $bg-white;
+                color: $text-primary 
             }
-            
+            :global(.dark-mode button.btn-lg) {
+                background-color: $bg-primary-dark;
+                margin-left: 5rem;
+                color: $text-white;
+            }
         </style>

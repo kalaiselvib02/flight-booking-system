@@ -1,0 +1,122 @@
+
+.d-flex{
+    display: flex;
+}
+.flex-column{
+    flex-direction: column;
+}
+.flex-align-center{
+    align-items: center;
+ }
+ .flex-center{
+    justify-content: center;
+ }
+.flex-end{
+    justify-content: flex-end;
+}
+.grid-2-col{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+.w-80{
+    width: 80%;
+}
+.d-none{
+    display: none;
+}
+.h-100{
+    height: 100%;
+}
+.ml-2{
+    margin-left: 0.25rem;
+}
+.mb-0_2{
+    margin-bottom: 0.25rem;
+}
+.light-bg{
+    background-color: #E3EBF4;
+}
+.text-bold{
+    font-family: $medium-pb;
+}
+.text-gray{
+    color: #b3afaf;
+}
+.text-sm{
+    font-size: $text-sm;
+}
+.text-xsm{
+    font-size:$text-xsm;
+}
+.text-md{
+    font-size: $text-md;
+}
+.text-lg{
+    font-size: $text-lg;
+}
+.text-grey{
+    color: $text-grey;
+}
+.text-white{
+    color : $text-white
+}
+.w-100{
+    width: 100%;
+}
+.p-relative{
+    position: relative;
+}
+.text-center{
+    text-align: center;
+}
+.m-auto{
+    margin: 0 auto;
+}
+.text-center{
+    text-align: center;
+}
+
+
+:global(.s-select){
+    background-color: #fff;
+    width: 100%;
+    padding: 1rem;
+    border-right: 1px solid #ccc;
+}
+:global( .s-menu){
+    top: 56px ;
+    left: 0px;
+    transform-origin: left top;
+    z-index: 8;
+    background-color: #fff !important;
+    width: 100%;
+}
+:global(.s-input label) {
+    color: $text-primary;
+    font-family: $regular-pb;
+}
+:global(.s-text-field__wrapper>[slot=append]){
+    display: none;
+}
+:global(.s-text-field__input input[type="text"]){
+color: $text-primary;
+padding-left: 1.6rem;
+font-family: $regular-pb;
+}
+// Dar Mode css // 
+:global(.dark-mode .s-input label) {
+    color: $text-white;
+    font-family: $regular-pb;
+}
+:global(.dark-mode .s-text-field__input input[type="text"]){
+    color: $text-white;
+   background-color: $bg-primary-dark ;
+    }
+:global(.s-list-item__title){
+    color: $text-primary;
+    font-family: $regular-pb;
+}
+:global(.s-text-field__input){
+    color: $text-primary;
+    padding-left: 1rem;
+}
